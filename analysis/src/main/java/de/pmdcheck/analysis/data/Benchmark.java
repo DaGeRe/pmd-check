@@ -32,19 +32,19 @@ public class Benchmark {
          // System.out.print(entry.getKey());
          // System.out.println(relativeDiff);
          if (change) {
-            if (relativeDiff < 0.01) {
+            if (relativeDiff < 0.02) {
                result += "(";
             }
             if (entry.getValue().bad.getMean() > entry.getValue().good.getMean()) {
-               result += "W";
-               System.out.println(entry.getKey() + " " + entry.getValue().bad.getMean() 
-                     + " " + entry.getValue().good.getMean() + " " 
-                     + TestUtils.t(entry.getValue().bad, entry.getValue().good) + " " 
-                     + relativeDiff);
+               result += "$\\times$";
+//               System.out.println(entry.getKey() + " " + entry.getValue().bad.getMean() 
+//                     + " " + entry.getValue().good.getMean() + " " 
+//                     + TestUtils.t(entry.getValue().bad, entry.getValue().good) + " " 
+//                     + relativeDiff);
             } else {
-               result += "C";
+               result += "$\\surd$";
             }
-            if (relativeDiff < 0.01) {
+            if (relativeDiff < 0.02) {
                result += ")";
             }
          } else {
