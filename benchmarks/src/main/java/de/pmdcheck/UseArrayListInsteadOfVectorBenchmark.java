@@ -1,10 +1,10 @@
 package de.pmdcheck;
 
+import org.openjdk.jmh.annotations.Benchmark;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
-
-import org.openjdk.jmh.annotations.Benchmark;
 
 public class UseArrayListInsteadOfVectorBenchmark {
 

@@ -33,7 +33,6 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -137,7 +136,7 @@ public class Vector<E>
      * @throws IllegalArgumentException if the specified initial capacity
      *         is negative
      */
-    public Vector(final int initialCapacity, final int capacityIncrement) {
+    public Vector(int initialCapacity, int capacityIncrement) {
         super();
         if (initialCapacity < 0)
             throw new IllegalArgumentException("Illegal Capacity: "+
@@ -154,7 +153,7 @@ public class Vector<E>
      * @throws IllegalArgumentException if the specified initial capacity
      *         is negative
      */
-    public Vector(final int initialCapacity) {
+    public Vector(int initialCapacity) {
         this(initialCapacity, 0);
     }
 
@@ -177,7 +176,7 @@ public class Vector<E>
      * @throws NullPointerException if the specified collection is null
      * @since   1.2
      */
-    public Vector(final Collection<? extends E> c) {
+    public Vector(Collection<? extends E> c) {
         elementData = c.toArray();
         elementCount = elementData.length;
         // c.toArray might (incorrectly) not return Object[] (see 6260652)
@@ -198,7 +197,7 @@ public class Vector<E>
      *         a runtime type that can be stored in the specified array
      * @see #toArray(Object[])
      */
-    public synchronized void copyInto(final Object[] anArray) {
+    public synchronized void copyInto(Object[] anArray) {
         System.arraycopy(elementData, 0, anArray, 0, elementCount);
     }
 
@@ -212,7 +211,7 @@ public class Vector<E>
      */
     public synchronized void trimToSize() {
         modCount++;
-        final int oldCapacity = elementData.length;
+        int oldCapacity = elementData.length;
         if (elementCount < oldCapacity) {
             elementData = Arrays.copyOf(elementData, elementCount);
         }
@@ -235,7 +234,7 @@ public class Vector<E>
      *
      * @param minCapacity the desired minimum capacity
      */
-    public synchronized void ensureCapacity(final int minCapacity) {
+    public synchronized void ensureCapacity(int minCapacity) {
         if (minCapacity > 0) {
             modCount++;
             ensureCapacityHelper(minCapacity);
@@ -250,7 +249,7 @@ public class Vector<E>
      *
      * @see #ensureCapacity(int)
      */
-    private void ensureCapacityHelper(final int minCapacity) {
+    private void ensureCapacityHelper(int minCapacity) {
         // overflow-conscious code
         if (minCapacity - elementData.length > 0)
             grow(minCapacity);
@@ -264,9 +263,9 @@ public class Vector<E>
      */
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
-    private void grow(final int minCapacity) {
+    private void grow(int minCapacity) {
         // overflow-conscious code
-        final int oldCapacity = elementData.length;
+        int oldCapacity = elementData.length;
         int newCapacity = oldCapacity + ((capacityIncrement > 0) ?
                                          capacityIncrement : oldCapacity);
         if (newCapacity - minCapacity < 0)
@@ -276,7 +275,7 @@ public class Vector<E>
         elementData = Arrays.copyOf(elementData, newCapacity);
     }
 
-    private static int hugeCapacity(final int minCapacity) {
+    private static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) // overflow
             throw new OutOfMemoryError();
         return (minCapacity > MAX_ARRAY_SIZE) ?
@@ -293,7 +292,7 @@ public class Vector<E>
      * @param  newSize   the new size of this vector
      * @throws ArrayIndexOutOfBoundsException if the new size is negative
      */
-    public synchronized void setSize(final int newSize) {
+    public synchronized void setSize(int newSize) {
         modCount++;
         if (newSize > elementCount) {
             ensureCapacityHelper(newSize);
@@ -321,8 +320,7 @@ public class Vector<E>
      *
      * @return  the number of components in this vector
      */
-    @Override
-   public synchronized int size() {
+    public synchronized int size() {
         return elementCount;
     }
 
@@ -333,8 +331,7 @@ public class Vector<E>
      *          no components, that is, its size is zero;
      *          {@code false} otherwise.
      */
-    @Override
-   public synchronized boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return elementCount == 0;
     }
 
@@ -351,12 +348,10 @@ public class Vector<E>
         return new Enumeration<E>() {
             int count = 0;
 
-            @Override
             public boolean hasMoreElements() {
                 return count < elementCount;
             }
 
-            @Override
             public E nextElement() {
                 synchronized (Vector.this) {
                     if (count < elementCount) {
@@ -377,8 +372,7 @@ public class Vector<E>
      * @param o element whose presence in this vector is to be tested
      * @return {@code true} if this vector contains the specified element
      */
-    @Override
-   public boolean contains(final Object o) {
+    public boolean contains(Object o) {
         return indexOf(o, 0) >= 0;
     }
 
@@ -393,8 +387,7 @@ public class Vector<E>
      * @return the index of the first occurrence of the specified element in
      *         this vector, or -1 if this vector does not contain the element
      */
-    @Override
-   public int indexOf(final Object o) {
+    public int indexOf(Object o) {
         return indexOf(o, 0);
     }
 
@@ -414,7 +407,7 @@ public class Vector<E>
      * @throws IndexOutOfBoundsException if the specified index is negative
      * @see     Object#equals(Object)
      */
-    public synchronized int indexOf(final Object o, final int index) {
+    public synchronized int indexOf(Object o, int index) {
         if (o == null) {
             for (int i = index ; i < elementCount ; i++)
                 if (elementData[i]==null)
@@ -438,8 +431,7 @@ public class Vector<E>
      * @return the index of the last occurrence of the specified element in
      *         this vector, or -1 if this vector does not contain the element
      */
-    @Override
-   public synchronized int lastIndexOf(final Object o) {
+    public synchronized int lastIndexOf(Object o) {
         return lastIndexOf(o, elementCount-1);
     }
 
@@ -459,7 +451,7 @@ public class Vector<E>
      * @throws IndexOutOfBoundsException if the specified index is greater
      *         than or equal to the current size of this vector
      */
-    public synchronized int lastIndexOf(final Object o, final int index) {
+    public synchronized int lastIndexOf(Object o, int index) {
         if (index >= elementCount)
             throw new IndexOutOfBoundsException(index + " >= "+ elementCount);
 
@@ -486,7 +478,7 @@ public class Vector<E>
      * @throws ArrayIndexOutOfBoundsException if the index is out of range
      *         ({@code index < 0 || index >= size()})
      */
-    public synchronized E elementAt(final int index) {
+    public synchronized E elementAt(int index) {
         if (index >= elementCount) {
             throw new ArrayIndexOutOfBoundsException(index + " >= " + elementCount);
         }
@@ -542,7 +534,7 @@ public class Vector<E>
      * @throws ArrayIndexOutOfBoundsException if the index is out of range
      *         ({@code index < 0 || index >= size()})
      */
-    public synchronized void setElementAt(final E obj, final int index) {
+    public synchronized void setElementAt(E obj, int index) {
         if (index >= elementCount) {
             throw new ArrayIndexOutOfBoundsException(index + " >= " +
                                                      elementCount);
@@ -569,7 +561,7 @@ public class Vector<E>
      * @throws ArrayIndexOutOfBoundsException if the index is out of range
      *         ({@code index < 0 || index >= size()})
      */
-    public synchronized void removeElementAt(final int index) {
+    public synchronized void removeElementAt(int index) {
         modCount++;
         if (index >= elementCount) {
             throw new ArrayIndexOutOfBoundsException(index + " >= " +
@@ -578,7 +570,7 @@ public class Vector<E>
         else if (index < 0) {
             throw new ArrayIndexOutOfBoundsException(index);
         }
-        final int j = elementCount - index - 1;
+        int j = elementCount - index - 1;
         if (j > 0) {
             System.arraycopy(elementData, index + 1, elementData, index, j);
         }
@@ -609,7 +601,7 @@ public class Vector<E>
      * @throws ArrayIndexOutOfBoundsException if the index is out of range
      *         ({@code index < 0 || index > size()})
      */
-    public synchronized void insertElementAt(final E obj, final int index) {
+    public synchronized void insertElementAt(E obj, int index) {
         modCount++;
         if (index > elementCount) {
             throw new ArrayIndexOutOfBoundsException(index
@@ -632,7 +624,7 @@ public class Vector<E>
      *
      * @param   obj   the component to be added
      */
-    public synchronized void addElement(final E obj) {
+    public synchronized void addElement(E obj) {
         modCount++;
         ensureCapacityHelper(elementCount + 1);
         elementData[elementCount++] = obj;
@@ -653,9 +645,9 @@ public class Vector<E>
      * @return  {@code true} if the argument was a component of this
      *          vector; {@code false} otherwise.
      */
-    public synchronized boolean removeElement(final Object obj) {
+    public synchronized boolean removeElement(Object obj) {
         modCount++;
-        final int i = indexOf(obj);
+        int i = indexOf(obj);
         if (i >= 0) {
             removeElementAt(i);
             return true;
@@ -685,16 +677,14 @@ public class Vector<E>
      *
      * @return  a clone of this vector
      */
-    @Override
-   public synchronized Object clone() {
+    public synchronized Object clone() {
         try {
             @SuppressWarnings("unchecked")
-            final
                 Vector<E> v = (Vector<E>) super.clone();
             v.elementData = Arrays.copyOf(elementData, elementCount);
             v.modCount = 0;
             return v;
-        } catch (final CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
             throw new InternalError();
         }
@@ -706,8 +696,7 @@ public class Vector<E>
      *
      * @since 1.2
      */
-    @Override
-   public synchronized Object[] toArray() {
+    public synchronized Object[] toArray() {
         return Arrays.copyOf(elementData, elementCount);
     }
 
@@ -734,9 +723,8 @@ public class Vector<E>
      * @throws NullPointerException if the given array is null
      * @since 1.2
      */
-    @Override
-   @SuppressWarnings("unchecked")
-    public synchronized <T> T[] toArray(final T[] a) {
+    @SuppressWarnings("unchecked")
+    public synchronized <T> T[] toArray(T[] a) {
         if (a.length < elementCount)
             return (T[]) Arrays.copyOf(elementData, elementCount, a.getClass());
 
@@ -751,7 +739,7 @@ public class Vector<E>
     // Positional Access Operations
 
     @SuppressWarnings("unchecked")
-    E elementData(final int index) {
+    E elementData(int index) {
         return (E) elementData[index];
     }
 
@@ -764,8 +752,7 @@ public class Vector<E>
      *            ({@code index < 0 || index >= size()})
      * @since 1.2
      */
-    @Override
-   public synchronized E get(final int index) {
+    public synchronized E get(int index) {
         if (index >= elementCount)
             throw new ArrayIndexOutOfBoundsException(index);
 
@@ -783,12 +770,11 @@ public class Vector<E>
      *         ({@code index < 0 || index >= size()})
      * @since 1.2
      */
-    @Override
-   public synchronized E set(final int index, final E element) {
+    public synchronized E set(int index, E element) {
         if (index >= elementCount)
             throw new ArrayIndexOutOfBoundsException(index);
 
-        final E oldValue = elementData(index);
+        E oldValue = elementData(index);
         elementData[index] = element;
         return oldValue;
     }
@@ -800,8 +786,7 @@ public class Vector<E>
      * @return {@code true} (as specified by {@link Collection#add})
      * @since 1.2
      */
-    @Override
-   public synchronized boolean add(final E e) {
+    public synchronized boolean add(E e) {
         modCount++;
         ensureCapacityHelper(elementCount + 1);
         elementData[elementCount++] = e;
@@ -819,8 +804,7 @@ public class Vector<E>
      * @return true if the Vector contained the specified element
      * @since 1.2
      */
-    @Override
-   public boolean remove(final Object o) {
+    public boolean remove(Object o) {
         return removeElement(o);
     }
 
@@ -835,8 +819,7 @@ public class Vector<E>
      *         ({@code index < 0 || index > size()})
      * @since 1.2
      */
-    @Override
-   public void add(final int index, final E element) {
+    public void add(int index, E element) {
         insertElementAt(element, index);
     }
 
@@ -851,14 +834,13 @@ public class Vector<E>
      * @return element that was removed
      * @since 1.2
      */
-    @Override
-   public synchronized E remove(final int index) {
+    public synchronized E remove(int index) {
         modCount++;
         if (index >= elementCount)
             throw new ArrayIndexOutOfBoundsException(index);
-        final E oldValue = elementData(index);
+        E oldValue = elementData(index);
 
-        final int numMoved = elementCount - index - 1;
+        int numMoved = elementCount - index - 1;
         if (numMoved > 0)
             System.arraycopy(elementData, index+1, elementData, index,
                              numMoved);
@@ -873,8 +855,7 @@ public class Vector<E>
      *
      * @since 1.2
      */
-    @Override
-   public void clear() {
+    public void clear() {
         removeAllElements();
     }
 
@@ -890,8 +871,7 @@ public class Vector<E>
      *         specified collection
      * @throws NullPointerException if the specified collection is null
      */
-    @Override
-   public synchronized boolean containsAll(final Collection<?> c) {
+    public synchronized boolean containsAll(Collection<?> c) {
         return super.containsAll(c);
     }
 
@@ -908,11 +888,10 @@ public class Vector<E>
      * @throws NullPointerException if the specified collection is null
      * @since 1.2
      */
-    @Override
-   public synchronized boolean addAll(final Collection<? extends E> c) {
+    public synchronized boolean addAll(Collection<? extends E> c) {
         modCount++;
-        final Object[] a = c.toArray();
-        final int numNew = a.length;
+        Object[] a = c.toArray();
+        int numNew = a.length;
         ensureCapacityHelper(elementCount + numNew);
         System.arraycopy(a, 0, elementData, elementCount, numNew);
         elementCount += numNew;
@@ -936,8 +915,7 @@ public class Vector<E>
      *         or if the specified collection is null
      * @since 1.2
      */
-    @Override
-   public synchronized boolean removeAll(final Collection<?> c) {
+    public synchronized boolean removeAll(Collection<?> c) {
         return super.removeAll(c);
     }
 
@@ -960,8 +938,7 @@ public class Vector<E>
      *         or if the specified collection is null
      * @since 1.2
      */
-    @Override
-   public synchronized boolean retainAll(final Collection<?> c) {
+    public synchronized boolean retainAll(Collection<?> c) {
         return super.retainAll(c);
     }
 
@@ -982,17 +959,16 @@ public class Vector<E>
      * @throws NullPointerException if the specified collection is null
      * @since 1.2
      */
-    @Override
-   public synchronized boolean addAll(final int index, final Collection<? extends E> c) {
+    public synchronized boolean addAll(int index, Collection<? extends E> c) {
         modCount++;
         if (index < 0 || index > elementCount)
             throw new ArrayIndexOutOfBoundsException(index);
 
-        final Object[] a = c.toArray();
-        final int numNew = a.length;
+        Object[] a = c.toArray();
+        int numNew = a.length;
         ensureCapacityHelper(elementCount + numNew);
 
-        final int numMoved = elementCount - index;
+        int numMoved = elementCount - index;
         if (numMoved > 0)
             System.arraycopy(elementData, index, elementData, index + numNew,
                              numMoved);
@@ -1014,16 +990,14 @@ public class Vector<E>
      * @param o the Object to be compared for equality with this Vector
      * @return true if the specified Object is equal to this Vector
      */
-    @Override
-   public synchronized boolean equals(final Object o) {
+    public synchronized boolean equals(Object o) {
         return super.equals(o);
     }
 
     /**
      * Returns the hash code value for this Vector.
      */
-    @Override
-   public synchronized int hashCode() {
+    public synchronized int hashCode() {
         return super.hashCode();
     }
 
@@ -1031,8 +1005,7 @@ public class Vector<E>
      * Returns a string representation of this Vector, containing
      * the String representation of each element.
      */
-    @Override
-   public synchronized String toString() {
+    public synchronized String toString() {
         return super.toString();
     }
 
@@ -1070,8 +1043,7 @@ public class Vector<E>
      * @throws IllegalArgumentException if the endpoint indices are out of order
      *         {@code (fromIndex > toIndex)}
      */
-    @Override
-   public synchronized List<E> subList(final int fromIndex, final int toIndex) {
+    public synchronized List<E> subList(int fromIndex, int toIndex) {
         return Collections.synchronizedList(super.subList(fromIndex, toIndex),
                                             this);
     }
@@ -1083,15 +1055,14 @@ public class Vector<E>
      * This call shortens the list by {@code (toIndex - fromIndex)} elements.
      * (If {@code toIndex==fromIndex}, this operation has no effect.)
      */
-    @Override
-   protected synchronized void removeRange(final int fromIndex, final int toIndex) {
+    protected synchronized void removeRange(int fromIndex, int toIndex) {
         modCount++;
-        final int numMoved = elementCount - toIndex;
+        int numMoved = elementCount - toIndex;
         System.arraycopy(elementData, toIndex, elementData, fromIndex,
                          numMoved);
 
         // Let gc do its work
-        final int newElementCount = elementCount - (toIndex-fromIndex);
+        int newElementCount = elementCount - (toIndex-fromIndex);
         while (elementCount != newElementCount)
             elementData[--elementCount] = null;
     }
@@ -1107,11 +1078,11 @@ public class Vector<E>
      * @throws ClassNotFoundException if the stream contains data
      *         of a non-existing class
      */
-    private void readObject(final ObjectInputStream in)
+    private void readObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException {
-        final ObjectInputStream.GetField gfields = in.readFields();
-        final int count = gfields.get("elementCount", 0);
-        final Object[] data = (Object[])gfields.get("elementData", null);
+        ObjectInputStream.GetField gfields = in.readFields();
+        int count = gfields.get("elementCount", 0);
+        Object[] data = (Object[])gfields.get("elementData", null);
         if (count < 0 || data == null || count > data.length) {
             throw new StreamCorruptedException("Inconsistent vector internals");
         }
@@ -1125,7 +1096,7 @@ public class Vector<E>
      * This method performs synchronization to ensure the consistency
      * of the serialized data.
      */
-    private void writeObject(final java.io.ObjectOutputStream s)
+    private void writeObject(java.io.ObjectOutputStream s)
             throws java.io.IOException {
         final java.io.ObjectOutputStream.PutField fields = s.putFields();
         final Object[] data;
@@ -1150,8 +1121,7 @@ public class Vector<E>
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
-    @Override
-   public synchronized ListIterator<E> listIterator(final int index) {
+    public synchronized ListIterator<E> listIterator(int index) {
         if (index < 0 || index > elementCount)
             throw new IndexOutOfBoundsException("Index: "+index);
         return new ListItr(index);
@@ -1165,8 +1135,7 @@ public class Vector<E>
      *
      * @see #listIterator(int)
      */
-    @Override
-   public synchronized ListIterator<E> listIterator() {
+    public synchronized ListIterator<E> listIterator() {
         return new ListItr(0);
     }
 
@@ -1177,8 +1146,7 @@ public class Vector<E>
      *
      * @return an iterator over the elements in this list in proper sequence
      */
-    @Override
-   public synchronized Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Itr();
     }
 
@@ -1190,18 +1158,16 @@ public class Vector<E>
         int lastRet = -1; // index of last element returned; -1 if no such
         int expectedModCount = modCount;
 
-        @Override
-      public boolean hasNext() {
+        public boolean hasNext() {
             // Racy but within spec, since modifications are checked
             // within or after synchronization in next/previous
             return cursor != elementCount;
         }
 
-        @Override
-      public E next() {
+        public E next() {
             synchronized (Vector.this) {
                 checkForComodification();
-                final int i = cursor;
+                int i = cursor;
                 if (i >= elementCount)
                     throw new NoSuchElementException();
                 cursor = i + 1;
@@ -1209,8 +1175,7 @@ public class Vector<E>
             }
         }
 
-        @Override
-      public void remove() {
+        public void remove() {
             if (lastRet == -1)
                 throw new IllegalStateException();
             synchronized (Vector.this) {
@@ -1232,31 +1197,27 @@ public class Vector<E>
      * An optimized version of AbstractList.ListItr
      */
     final class ListItr extends Itr implements ListIterator<E> {
-        ListItr(final int index) {
+        ListItr(int index) {
             super();
             cursor = index;
         }
 
-        @Override
-      public boolean hasPrevious() {
+        public boolean hasPrevious() {
             return cursor != 0;
         }
 
-        @Override
-      public int nextIndex() {
+        public int nextIndex() {
             return cursor;
         }
 
-        @Override
-      public int previousIndex() {
+        public int previousIndex() {
             return cursor - 1;
         }
 
-        @Override
-      public E previous() {
+        public E previous() {
             synchronized (Vector.this) {
                 checkForComodification();
-                final int i = cursor - 1;
+                int i = cursor - 1;
                 if (i < 0)
                     throw new NoSuchElementException();
                 cursor = i;
@@ -1264,8 +1225,7 @@ public class Vector<E>
             }
         }
 
-        @Override
-      public void set(final E e) {
+        public void set(E e) {
             if (lastRet == -1)
                 throw new IllegalStateException();
             synchronized (Vector.this) {
@@ -1274,9 +1234,8 @@ public class Vector<E>
             }
         }
 
-        @Override
-      public void add(final E e) {
-            final int i = cursor;
+        public void add(E e) {
+            int i = cursor;
             synchronized (Vector.this) {
                 checkForComodification();
                 Vector.this.add(i, e);
