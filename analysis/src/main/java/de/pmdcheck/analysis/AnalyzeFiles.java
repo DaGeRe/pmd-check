@@ -35,7 +35,7 @@ public class AnalyzeFiles {
          System.out.println("Reading: " + benchmarkFile);
          String line;
          while ((line = reader.readLine()) != null) {
-            if (line.startsWith("# Benchmark:")) {
+            if (line.startsWith("# Benchmark:") && !line.contains("factorial") && !line.contains("sizeable")) {
                final String measurementName = line.substring("# Benchmark:".length(), line.length()).trim();
                currentBenchmark = measurementName.substring(0, measurementName.lastIndexOf("."));
                currentBenchmark = currentBenchmark.substring(currentBenchmark.lastIndexOf('.') + 1);

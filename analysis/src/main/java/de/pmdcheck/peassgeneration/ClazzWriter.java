@@ -20,6 +20,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ReferenceType;
 
 import de.peass.dependency.changesreading.FileComparisonUtil;
+import de.peass.dependency.changesreading.JavaParserProvider;
 import de.peass.testtransformation.ParseUtil;
 
 public class ClazzWriter {
@@ -29,7 +30,7 @@ public class ClazzWriter {
    private final String methodName;
 
    public ClazzWriter(File benchmarkFile, String methodName) throws FileNotFoundException {
-      unit = FileComparisonUtil.parse(benchmarkFile);
+      unit = JavaParserProvider.parse(benchmarkFile);
       declaration = ParseUtil.getClass(unit);
       this.methodName = methodName;
    }
