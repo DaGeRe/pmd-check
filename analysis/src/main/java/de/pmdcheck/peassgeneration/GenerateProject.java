@@ -9,7 +9,7 @@ import java.net.URL;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
-import de.peass.utils.StreamGobbler;
+import de.dagere.peass.utils.StreamGobbler;
 
 public class GenerateProject {
    public static void main(final String[] args) throws IOException, InterruptedException {
