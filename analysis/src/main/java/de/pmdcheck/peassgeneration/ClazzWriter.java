@@ -19,7 +19,6 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ReferenceType;
 
-import de.dagere.peass.dependency.changesreading.FileComparisonUtil;
 import de.dagere.peass.dependency.changesreading.JavaParserProvider;
 import de.dagere.peass.testtransformation.ParseUtil;
 
@@ -31,7 +30,7 @@ public class ClazzWriter {
 
    public ClazzWriter(File benchmarkFile, String methodName) throws FileNotFoundException {
       unit = JavaParserProvider.parse(benchmarkFile);
-      declaration = ParseUtil.getClass(unit);
+      declaration = ParseUtil.getClasses(unit).get(0);
       this.methodName = methodName;
    }
 
