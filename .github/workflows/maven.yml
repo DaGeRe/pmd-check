@@ -24,6 +24,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: Install dependencies
+      run: |
+         cd /home/runner/work/ && git clone -b develop https://github.com/DaGeRe/peass.git && cd peass && mvn clean install -DskipTests
     - name: Build with Maven
       run: |
          cd analysis && mvn clean install
